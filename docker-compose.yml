@@ -1,0 +1,78 @@
+services:
+  # Base de Datos PostgreSQL
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-atiende}
+      POSTGRES_USER: ${POSTGRES_USER:-atiende_user}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-atiende_secure_pass_2026}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - internal
+    # Sin puertos expuestos al host para aislamiento entre múltiples clientes
+
+  # Proceso Web (Next.js Standalone + Panel + API + OAuth + Webchat)
+  web:
+    image: ${IMAGE_NAME:-ghcr.io/tu-usuario/atiende:latest}
+    restart: unless-stopped
+    command: ["web"]
+    environment:
+      APP_URL: ${APP_URL}
+      PORT: 3000
+      DATABASE_URL: postgresql://${POSTGRES_USER:-atiende_user}:${POSTGRES_PASSWORD:-atiende_secure_pass_2026}@db:5432/${POSTGRES_DB:-atiende}?sslmode=disable
+      ADMIN_EMAIL: ${ADMIN_EMAIL}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD}
+      AUTH_SECRET: ${AUTH_SECRET}
+      ENCRYPTION_KEY: ${ENCRYPTION_KEY}
+      OPENROUTER_API_KEY: ${OPENROUTER_API_KEY}
+      DEFAULT_AI_MODEL: ${DEFAULT_AI_MODEL:-anthropic/claude-haiku-5.5}
+      SEED_DEMO: ${SEED_DEMO:-false}
+      GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
+      GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET}
+      SLACK_WEBHOOK_URL: ${SLACK_WEBHOOK_URL}
+      STRIPE_RESTRICTED_KEY: ${STRIPE_RESTRICTED_KEY}
+      WEBHOOK_SIGNING_SECRET: ${WEBHOOK_SIGNING_SECRET}
+    depends_on:
+      - db
+    networks:
+      - internal
+      - traefik-proxy
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.${PROJECT_NAME}.rule=Host(`${DOMAIN}`)"
+      - "traefik.http.routers.${PROJECT_NAME}.entrypoints=websecure"
+      - "traefik.http.routers.${PROJECT_NAME}.tls.certresolver=letsencrypt"
+      - "traefik.http.services.${PROJECT_NAME}.loadbalancer.server.port=3000"
+
+  # Proceso Worker (WhatsApp Baileys + Tareas Programadas Cron)
+  worker:
+    image: ${IMAGE_NAME:-ghcr.io/tu-usuario/atiende:latest}
+    restart: unless-stopped
+    command: ["worker"]
+    environment:
+      APP_URL: ${APP_URL}
+      DATABASE_URL: postgresql://${POSTGRES_USER:-atiende_user}:${POSTGRES_PASSWORD:-atiende_secure_pass_2026}@db:5432/${POSTGRES_DB:-atiende}?sslmode=disable
+      ENCRYPTION_KEY: ${ENCRYPTION_KEY}
+      OPENROUTER_API_KEY: ${OPENROUTER_API_KEY}
+      DEFAULT_AI_MODEL: ${DEFAULT_AI_MODEL:-anthropic/claude-haiku-5.5}
+      WHATSAPP_SESSION_DIR: /app/data/whatsapp_session
+      ADMIN_EMAIL: ${ADMIN_EMAIL}
+    volumes:
+      - whatsapp_session:/app/data/whatsapp_session
+    depends_on:
+      - db
+    networks:
+      - internal
+    # Sin puertos expuestos al host
+
+volumes:
+  postgres_data:
+  whatsapp_session:
+
+networks:
+  internal:
+    driver: bridge
+  traefik-proxy:
+    external: true

@@ -1,0 +1,183 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+// 1. Usuarios y Marca de Agencia
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  name         String
+  role         Role     @default(ADMIN)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+enum Role {
+  ADMIN
+  STAFF
+}
+
+model AgencyBrand {
+  id        String   @id @default("default")
+  name      String   @default("Atiende")
+  logoUrl   String?
+  updatedAt DateTime @updatedAt
+}
+
+// 2. Configuración del Negocio y Asistente
+model BusinessSettings {
+  id             String   @id @default("default")
+  name           String   @default("Clínica Dental Lumen")
+  description    String   @default("Clínica odontológica integral para toda la familia")
+  address        String?  @default("Av. Francisco de Miranda, Edif. Centro Seguros, Piso 4, Chacao, Caracas")
+  phone          String?  @default("+58 212 555 0123")
+  website        String?  @default("https://clinicalumen.ejemplo.com")
+  timezone       String   @default("America/Caracas")
+  isActive       Boolean  @default(true) // Interruptor general
+  defaultAiModel String   @default("anthropic/claude-haiku-5.5")
+  freeTextInfo   String?  @db.Text
+  updatedAt      DateTime @updatedAt
+}
+
+model AssistantBehavior {
+  id               String   @id @default("default")
+  name             String   @default("Lumen Asistente")
+  avatarUrl        String?
+  tone             String   @default("cercano_profesional") // cercano, profesional, directo
+  welcomeMessage   String   @default("¡Hola! Te damos la bienvenida a Clínica Dental Lumen. ¿En qué podemos ayudarte hoy?")
+  instructions     String   @db.Text
+  forbiddenRules   String   @db.Text // Cosas que nunca debe hacer
+  scheduleConfig   Json     // Horarios L-V 9:00-14:00 y 16:00-20:00, etc.
+  outOfHoursMode   String   @default("take_appointment") // take_appointment | take_note
+  handoverTriggers Json     // { complaint: true, urgent: true, human_requested: true, unknown_answer: true, customRule: "" }
+  updatedAt        DateTime @updatedAt
+}
+
+// 3. Conocimiento: Servicios y FAQs
+model Service {
+  id                  String   @id @default(cuid())
+  name                String
+  description         String
+  durationMinutes     Int      @default(30)
+  priceFrom           Decimal? @db.Decimal(10, 2)
+  priceExact          Decimal? @db.Decimal(10, 2)
+  requiresEvaluation  Boolean  @default(false)
+  stripeDepositAmount Decimal? @db.Decimal(10, 2)
+  isActive            Boolean  @default(true)
+  createdAt           DateTime @default(now())
+}
+
+model FaqItem {
+  id        String   @id @default(cuid())
+  question  String
+  answer    String   @db.Text
+  category  String?
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+}
+
+// 4. Integraciones Modulares
+model IntegrationConfig {
+  id            String   @id // 'google_calendar', 'gmail', 'google_sheets', 'slack', 'stripe', 'webhooks'
+  isEnabled     Boolean  @default(false)
+  status        String   @default("DISCONNECTED") // DISCONNECTED, CONNECTED, ERROR
+  accountEmail  String?
+  encryptedData String?  @db.Text // Tokens OAuth o API keys cifradas en AES-256-GCM
+  settings      Json?    // Opciones específicas
+  capabilities  Json?    // Casillas activadas de lo que el bot puede hacer
+  lastError     String?
+  updatedAt     DateTime @updatedAt
+}
+
+// 5. Canales de Comunicación
+model ChannelConfig {
+  id             String   @id // 'whatsapp', 'webchat'
+  isEnabled      Boolean  @default(true)
+  status         String   @default("DISCONNECTED")
+  accountDetails Json?    // WhatsApp: { phone: "+58...", lid: "..." } | Webchat: { color: "#2563EB", welcome: "..." }
+  qrCode         String?  @db.Text // Último QR generado para WhatsApp
+  updatedAt      DateTime @updatedAt
+}
+
+// 6. Contactos, Conversaciones y Mensajes
+model Contact {
+  id            String         @id @default(cuid())
+  phone         String?        @unique
+  whatsappLid   String?        @unique
+  email         String?
+  name          String?
+  channel       String         // 'whatsapp' | 'web'
+  leadStatus    String         @default("new")
+  interestNotes String?
+  metadata      Json?
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  conversations Conversation[]
+  appointments  Appointment[]
+}
+
+model Conversation {
+  id               String        @id @default(cuid())
+  contactId        String
+  contact          Contact       @relation(fields: [contactId], references: [id])
+  channel          String        // 'whatsapp' | 'web'
+  status           String        @default("BOT") // 'BOT' | 'WAITING_HUMAN' | 'HUMAN_ACTIVE' | 'CLOSED'
+  unreadCount      Int           @default(0)
+  lastMessageAt    DateTime      @default(now())
+  waitingReason    String?
+  messages         Message[]
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt
+}
+
+model Message {
+  id             String       @id @default(cuid())
+  conversationId String
+  conversation   Conversation @relation(fields: [conversationId], references: [id])
+  senderType     String       // 'CONTACT' | 'ASSISTANT' | 'AGENT'
+  content        String       @db.Text
+  toolCalls      Json?        // Array de tools invocadas
+  channelMsgId   String?      // ID original de WhatsApp o Web
+  isAudioOrMedia Boolean      @default(false)
+  createdAt      DateTime     @default(now())
+}
+
+// 7. Citas y Recordatorios
+model Appointment {
+  id                  String   @id @default(cuid())
+  contactId           String
+  contact             Contact  @relation(fields: [contactId], references: [id])
+  serviceName         String
+  scheduledAt         DateTime
+  durationMinutes     Int      @default(30)
+  googleEventId       String?
+  status              String   @default("CONFIRMED") // CONFIRMED, CANCELLED, RESCHEDULED
+  reminderSent        Boolean  @default(false)
+  notes               String?
+  createdAt           DateTime @default(now())
+}
+
+// 8. Trazabilidad y Órdenes Inter-Proceso
+model ActivityLog {
+  id          String   @id @default(cuid())
+  channel     String?  // 'whatsapp', 'web', 'system'
+  integration String?  // 'google_calendar', 'openrouter', 'slack', etc.
+  action      String   // 'tool_execution', 'message_sent', 'token_refresh', etc.
+  result      String   // 'SUCCESS', 'WARNING', 'ERROR'
+  details     Json?
+  createdAt   DateTime @default(now())
+}
+
+model WorkerCommand {
+  id          String   @id @default(cuid())
+  command     String   // 'DISCONNECT_WHATSAPP', 'TRIGGER_DAILY_SUMMARY', 'REFRESH_QR'
+  payload     Json?
+  isProcessed Boolean  @default(false)
+  createdAt   DateTime @default(now())
+}

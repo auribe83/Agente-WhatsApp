@@ -1,0 +1,50 @@
+# Dependencias
+/node_modules
+/.pnp
+.pnp.js
+
+# Salida de compilación Next.js
+/.next/
+/out/
+.turbo
+
+# Variables de entorno y secretos (NUNCA subir a git)
+.env
+.env*.local
+.env.production
+.env.staging
+client_secret*.json
+Apuntes.txt
+*.pem
+
+# Archivos temporales y de compilación
+*.tmp
+*.tsbuildinfo
+
+# Base de datos local embebida (PGlite)
+/prisma/data/
+/prisma/data/pglite/
+*.db
+*.sqlite
+
+# Sesión persistente de WhatsApp (Baileys)
+/data/
+/data/whatsapp_session/
+
+# Logs del sistema y npm
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# Logs de tareas y Antigravity brain
+.system_generated/
+*.log
+
+# Archivos del sistema operativo y editores
+.DS_Store
+*.pem
+.vscode/
+.idea/
+*.swp
+*.swo
