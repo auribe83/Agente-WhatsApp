@@ -12,7 +12,7 @@ export async function POST(request: Request) {
         type: "test",
         title: "🔔 Mensaje de Prueba desde Atiende",
         fields: {
-          Negocio: "Clínica Dental Lumen",
+          Negocio: "Clínica Dental Riky",
           Estado: "Conexión exitosa con Slack",
           Fecha: new Date().toLocaleString("es-VE", { timeZone: "America/Caracas" }),
         },

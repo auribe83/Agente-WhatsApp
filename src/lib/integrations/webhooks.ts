@@ -29,7 +29,7 @@ export async function dispatchWebhookEvent(event: WebhookEvent, payload: Record<
   const bodyData = {
     event,
     timestamp,
-    business: "Clínica Dental Lumen",
+    business: "Clínica Dental Riky",
     data: payload,
   };
 

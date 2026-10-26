@@ -261,7 +261,7 @@ async function runLocalSemanticAssistant(
 
   const isFirstMessage = fullHistory.filter((m) => m.role === "user").length <= 1;
   const prefix = isFirstMessage
-    ? "¡Hola! Soy el asistente virtual de Clínica Dental Lumen en Chacao. "
+    ? "¡Hola! Soy el asistente virtual de Clínica Dental Riky en Chacao. "
     : "";
 
   const timeStr = () =>
@@ -364,7 +364,7 @@ async function runLocalSemanticAssistant(
         "send_confirmation_email",
         {
           to: "paciente@ejemplo.com",
-          subject: "Confirmación de Cita - Clínica Dental Lumen",
+          subject: "Confirmación de Cita - Clínica Dental Riky",
           details: "Viernes a las 10:00 AM en Centro Seguros La Paz, Piso 4, Chacao.",
         },
         { isSafeMode, ...options }
@@ -383,7 +383,7 @@ async function runLocalSemanticAssistant(
       });
 
       return {
-        content: `${prefix}¡Listo! He confirmado tu cita para el **Viernes 28 de Octubre a las 10:00 AM** para tu Primera Visita y Revisión Diagnóstica con la Dra. Lumen. Te enviaremos un recordatorio 24 horas antes por WhatsApp. ¡Te esperamos en nuestra sede de Chacao!`,
+        content: `${prefix}¡Listo! He confirmado tu cita para el **Viernes 28 de Octubre a las 10:00 AM** para tu Primera Visita y Revisión Diagnóstica con el Dr. Riky. Te enviaremos un recordatorio 24 horas antes por WhatsApp. ¡Te esperamos en nuestra sede de Chacao!`,
         toolSteps,
       };
     }
@@ -455,7 +455,7 @@ async function runLocalSemanticAssistant(
 
   // Respuesta general informativa
   return {
-    content: `${prefix}En Clínica Dental Lumen ofrecemos servicios de primera visita gratuita con radiografía digital, limpieza profunda ($40), blanqueamiento LED ($150), ortodoncia invisible (desde $800) e implantes de titanio. ¿Te gustaría conocer más sobre algún tratamiento en particular o consultar fechas disponibles?`,
+    content: `${prefix}En Clínica Dental Riky ofrecemos servicios de primera visita gratuita con radiografía digital, limpieza profunda ($40), blanqueamiento LED ($150), ortodoncia invisible (desde $800) e implantes de titanio. ¿Te gustaría conocer más sobre algún tratamiento en particular o consultar fechas disponibles?`,
     toolSteps,
   };
 }

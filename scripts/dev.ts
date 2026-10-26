@@ -88,7 +88,7 @@ async function main() {
   });
 
   // Ejecutar seed
-  console.log("[Dev] Verificando datos iniciales (Clínica Dental Lumen)...");
+  console.log("[Dev] Verificando datos iniciales (Clínica Dental Riky)...");
   await new Promise<void>((resolve) => {
     const seed = spawn("npx", ["tsx", "prisma/seed.ts"], {
       stdio: "inherit",

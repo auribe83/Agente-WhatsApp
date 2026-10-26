@@ -37,12 +37,12 @@ interface ComportamientoFormProps {
 }
 
 export function ComportamientoForm({ initialData }: ComportamientoFormProps) {
-  const [name, setName] = useState(initialData?.name || "Lumen Asistente");
+  const [name, setName] = useState(initialData?.name || "Riky Asistente");
   const [avatarUrl, setAvatarUrl] = useState(initialData?.avatarUrl || "");
   const [tone, setTone] = useState(initialData?.tone || "cercano");
   const [welcomeMessage, setWelcomeMessage] = useState(
     initialData?.welcomeMessage ||
-      "¡Hola! Te damos la bienvenida a Clínica Dental Lumen. ¿En qué podemos ayudarte hoy?"
+      "¡Hola! Te damos la bienvenida a Clínica Dental Riky. ¿En qué podemos ayudarte hoy?"
   );
   const [instructions, setInstructions] = useState(initialData?.instructions || "");
   const [forbiddenRules, setForbiddenRules] = useState(initialData?.forbiddenRules || "");
@@ -153,7 +153,7 @@ export function ComportamientoForm({ initialData }: ComportamientoFormProps) {
               value={name}
               onChange={(e) => setName(e.target.value)}
               className="w-full px-3.5 py-2 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-900"
-              placeholder="Ej. Lumen Asistente"
+              placeholder="Ej. Riky Asistente"
               required
             />
           </div>

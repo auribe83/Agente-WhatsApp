@@ -46,7 +46,7 @@ export async function buildSystemPrompt(contactInfo?: {
 
   const faqsList = faqs.map((f) => `P: ${f.question}\nR: ${f.answer}`).join("\n\n");
 
-  return `ERES EL ASISTENTE VIRTUAL DE IA DE «${business?.name || "Clínica Dental Lumen"}».
+  return `ERES EL ASISTENTE VIRTUAL DE IA DE «${business?.name || "Clínica Dental Riky"}».
 
 INFORMACIÓN DEL NEGOCIO:
 - Nombre: ${business?.name}
@@ -59,7 +59,7 @@ INFORMACIÓN DEL NEGOCIO:
 - Fecha y hora actual: ${caracasTime}
 
 PERSONALIDAD Y TONO DE VOZ:
-- Tu nombre de asistente es: ${behavior?.name || "Lumen Asistente"}
+- Tu nombre de asistente es: ${behavior?.name || "Riky Asistente"}
 - Tono asignado: ${toneText}
 - Mensaje de bienvenida inicial: "${behavior?.welcomeMessage}"
 

@@ -33,11 +33,11 @@ model AgencyBrand {
 // 2. Configuración del Negocio y Asistente
 model BusinessSettings {
   id             String   @id @default("default")
-  name           String   @default("Clínica Dental Lumen")
+  name           String   @default("Clínica Dental Riky")
   description    String   @default("Clínica odontológica integral para toda la familia")
   address        String?  @default("Av. Francisco de Miranda, Edif. Centro Seguros, Piso 4, Chacao, Caracas")
   phone          String?  @default("+58 212 555 0123")
-  website        String?  @default("https://clinicalumen.ejemplo.com")
+  website        String?  @default("https://clinicariky.ejemplo.com")
   timezone       String   @default("America/Caracas")
   isActive       Boolean  @default(true) // Interruptor general
   defaultAiModel String   @default("anthropic/claude-haiku-5.5")
@@ -47,10 +47,10 @@ model BusinessSettings {
 
 model AssistantBehavior {
   id               String   @id @default("default")
-  name             String   @default("Lumen Asistente")
+  name             String   @default("Riky Asistente")
   avatarUrl        String?
   tone             String   @default("cercano_profesional") // cercano, profesional, directo
-  welcomeMessage   String   @default("¡Hola! Te damos la bienvenida a Clínica Dental Lumen. ¿En qué podemos ayudarte hoy?")
+  welcomeMessage   String   @default("¡Hola! Te damos la bienvenida a Clínica Dental Riky. ¿En qué podemos ayudarte hoy?")
   instructions     String   @db.Text
   forbiddenRules   String   @db.Text // Cosas que nunca debe hacer
   scheduleConfig   Json     // Horarios L-V 9:00-14:00 y 16:00-20:00, etc.

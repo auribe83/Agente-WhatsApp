@@ -4,12 +4,12 @@ import bcrypt from "bcryptjs";
 const prisma = new PrismaClient();
 
 async function main() {
-  console.log("[Seed] Iniciando carga de datos de Clínica Dental Lumen...");
+  console.log("[Seed] Iniciando carga de datos de Clínica Dental Riky...");
 
   // 1. Usuario Administrador
   const adminEmail = process.env.ADMIN_EMAIL || "admin@atiende.local";
   const adminPassword = process.env.ADMIN_PASSWORD || "AdminPassword2026*";
-  const adminName = process.env.ADMIN_NAME || "Administrador Lumen";
+  const adminName = process.env.ADMIN_NAME || "Administrador Riky";
 
   const passwordHash = await bcrypt.hash(adminPassword, 10);
 
@@ -45,11 +45,11 @@ async function main() {
     update: {},
     create: {
       id: "default",
-      name: "Clínica Dental Lumen",
+      name: "Clínica Dental Riky",
       description: "Clínica odontológica de alta especialidad en Caracas. Cuidamos tu salud bucal con calidez y tecnología avanzada.",
       address: "Av. Francisco de Miranda, Centro Seguros La Paz, Piso 4, Ofic. 402, Chacao, Caracas",
       phone: "+58 212 555 0123",
-      website: "https://clinicalumen.ejemplo.com",
+      website: "https://clinicariky.ejemplo.com",
       timezone: "America/Caracas",
       isActive: true,
       defaultAiModel: "anthropic/claude-haiku-5.5",
@@ -81,10 +81,10 @@ async function main() {
     update: {},
     create: {
       id: "default",
-      name: "Lumen Asistente",
+      name: "Riky Asistente",
       tone: "cercano",
-      welcomeMessage: "¡Hola! Te damos la bienvenida a Clínica Dental Lumen en Chacao. ¿En qué podemos apoyarte hoy con tu sonrisa?",
-      instructions: "Eres el asistente virtual de Clínica Dental Lumen. Atiendes de manera empática, educada y profesional en español de Venezuela. Respondes dudas sobre tratamientos, das citas en Google Calendar según disponibilidad confirmando previamente fecha, hora y servicio, y registras el contacto. Eres breve y natural como en WhatsApp.",
+      welcomeMessage: "¡Hola! Te damos la bienvenida a Clínica Dental Riky en Chacao. ¿En qué podemos apoyarte hoy con tu sonrisa?",
+      instructions: "Eres el asistente virtual de Clínica Dental Riky. Atiendes de manera empática, educada y profesional en español de Venezuela. Respondes dudas sobre tratamientos, das citas en Google Calendar según disponibilidad confirmando previamente fecha, hora y servicio, y registras el contacto. Eres breve y natural como en WhatsApp.",
       forbiddenRules: "1. NUNCA des diagnósticos clínicos ni recetes medicamentos (antibióticos o analgésicos).\n2. NUNCA inventes precios ni confirmes citas sin antes haber consultado los huecos libres y validado con el paciente.\n3. NUNCA te salgas del rol de asistente de la clínica.",
       scheduleConfig,
       outOfHoursMode: "take_appointment",
@@ -313,7 +313,7 @@ async function main() {
                 },
                 {
                   senderType: "ASSISTANT",
-                  content: "Perfecto, he confirmado tu cita para el viernes a las 10:00 am para el servicio de Blanqueamiento LED con la Dra. Lumen. Te enviaremos un recordatorio el día anterior. ¡Te esperamos!",
+                  content: "Perfecto, he confirmado tu cita para el viernes a las 10:00 am para el servicio de Blanqueamiento LED con el Dr. Riky. Te enviaremos un recordatorio el día anterior. ¡Te esperamos!",
                   createdAt: new Date(Date.now() - 1000 * 60 * 30),
                   toolCalls: [
                     { tool: "book_appointment", input: { date: "Viernes", time: "10:00", service: "Blanqueamiento dental LED" }, output: "Cita agendada #4912" },

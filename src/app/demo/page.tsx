@@ -29,10 +29,10 @@ export default function DemoPage() {
         <div className="max-w-6xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-xl bg-sky-600 text-white flex items-center justify-center font-bold text-lg shadow-sm">
-              L
+              R
             </div>
             <div>
-              <div className="font-bold text-slate-900 text-base leading-tight">Clínica Dental Lumen</div>
+              <div className="font-bold text-slate-900 text-base leading-tight">Clínica Dental Riky</div>
               <div className="text-xs text-slate-500">Chacao, Caracas · Odontología Especializada</div>
             </div>
           </div>

@@ -490,7 +490,7 @@ export async function executeTool(
           if (gmailConfig?.status === "CONNECTED") {
             await sendGmailMessage({
               to: args.to,
-              subject: args.subject || "Confirmación de Cita - Clínica Dental Lumen",
+              subject: args.subject || "Confirmación de Cita - Clínica Dental Riky",
               body: args.details,
             });
             emailSent = true;

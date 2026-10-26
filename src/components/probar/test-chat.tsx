@@ -50,7 +50,7 @@ export function TestChat() {
       id: "msg-welcome",
       role: "assistant",
       content:
-        "¡Hola! Te damos la bienvenida a Clínica Dental Lumen en Chacao. ¿En qué podemos apoyarte hoy con tu sonrisa?",
+        "¡Hola! Te damos la bienvenida a Clínica Dental Riky en Chacao. ¿En qué podemos apoyarte hoy con tu sonrisa?",
       timestamp: "Justo ahora",
     },
   ]);
@@ -149,7 +149,7 @@ export function TestChat() {
         id: "msg-welcome-reset",
         role: "assistant",
         content:
-          "¡Hola! Te damos la bienvenida a Clínica Dental Lumen en Chacao. ¿En qué podemos apoyarte hoy con tu sonrisa?",
+          "¡Hola! Te damos la bienvenida a Clínica Dental Riky en Chacao. ¿En qué podemos apoyarte hoy con tu sonrisa?",
         timestamp: new Date().toLocaleTimeString("es-VE", { hour: "2-digit", minute: "2-digit" }),
       },
     ]);
@@ -240,7 +240,7 @@ export function TestChat() {
                 <Bot className="w-4 h-4" />
               </div>
               <div>
-                <div className="text-xs font-bold text-slate-900">Lumen Asistente</div>
+                <div className="text-xs font-bold text-slate-900">Riky Asistente</div>
                 <div className="text-[10px] text-emerald-600 font-medium flex items-center gap-1">
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
                   En línea

@@ -17,7 +17,7 @@ cp .env.example .env
 ```
 
 ### 2. Arrancar la aplicación completa
-Un solo comando arranca la base de datos local, sincroniza el esquema con Prisma, siembra los datos de prueba de la **Clínica Dental Lumen**, arranca el proceso worker y el servidor Next.js:
+Un solo comando arranca la base de datos local, sincroniza el esquema con Prisma, siembra los datos de prueba de la **Clínica Dental Riky**, arranca el proceso worker y el servidor Next.js:
 
 ```bash
 npm run dev

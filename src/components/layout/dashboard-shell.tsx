@@ -18,7 +18,7 @@ export async function DashboardShell({ children }: { children: React.ReactNode }
       />
       <div className="flex-1 flex flex-col min-w-0">
         <Header
-          businessName={business?.name || "Clínica Dental Lumen"}
+          businessName={business?.name || "Clínica Dental Riky"}
           initialIsActive={business?.isActive ?? true}
         />
         <main className="flex-1 p-8 overflow-y-auto">{children}</main>

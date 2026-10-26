@@ -493,7 +493,7 @@ export function IntegrationsView({ initialIntegrations }: IntegrationsViewProps)
                     Hoja de Cálculo Creada
                   </div>
                   <p className="text-[11px] text-emerald-700">
-                    Tu hoja «Contactos — Clínica Dental Lumen» está vinculada.
+                    Tu hoja «Contactos — Clínica Dental Riky» está vinculada.
                   </p>
                   <a
                     href={currentSettings.url}
